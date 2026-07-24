@@ -1,0 +1,32 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: lumi.os
+Label: Lumi OS Repository
+Suite: trixie
+Codename: trixie
+Architectures: amd64
+Components: main
+Description: Official Repository for GNU/Linux lumi.os
+MD5Sum:
+ d41d8cd98f00b204e9800998ecf8427e Packages
+ 9b5bd94fc9be4cd4ff46a5ed663a62e4 Packages.gz
+SHA256:
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Packages
+ c85b8ef3824888b8d917aa3228ac16af67ed9c126aaf4a7337ef7f28369b696d Packages.gz
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEJdVX2zc88Ca5j+j8yWlUoAqMMFMFAmpSWQsACgkQyWlUoAqM
+MFOlaRAAxMBflfIXwC6JPBTmQcU1++gi8hWk5ZgXVYRJh8TzVPi5rbP3bDS8qmpL
+JXx6GBcuWF9cvNxuSlgTXFVXAtbVFfjuQNBxE4rP4GqGURbayzVCW5srUnLJPoqr
+WZpUvdK9KmdjPXO+Y6x2GqClNBijGTQR/WVGmspG5rghTDOOCvy05NotKSwl3v8r
+SZ9hyLBO5u//R0jhUnD9UVUvaVnjf1ZB714yvYvNwQBaGDQDd8uDGjUIm9kZin/8
+gF6vLBShCRovvsYwM4OABnUevWrZGWgnf+EENvbD22SWgHFyQ6Igzh0IA0GIWiMI
+60Tkq0IH+0yXBLDvGTQnSl2K9cNzWmsXhi2UbbXG2k/vMLPQdyv/WFDLiD1opjNw
+5UFNgkM0YZ+8o8XV74SheNqQo56Kicjn7AX8wXKEC4qhZBu4iNF3KyTJi6dIDAmK
+7Ssmn+QaqxrSWQQOUD6PfX665Hvs2a8Tj5qtwrSQhUzs3uty+XGVb4x0VSwHymra
+SogjPn1FkegedJlfOpOu+0MbABG/Xjx85hng/gyrKTycLjM+p0jihqtSDPyyD7v4
+G986hhLod/VJQdM5Qywzi03ntzPqDN4+dO5J8xWvDRPAuN8RXus92bM2vVwGglSf
+AmpPB2AcaUnf0ZrdjxsVtHr6calpEKy0qAMgVZuAT81HwUx4ux0=
+=7gJz
+-----END PGP SIGNATURE-----

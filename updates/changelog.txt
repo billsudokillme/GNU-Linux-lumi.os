@@ -1,0 +1,3 @@
+This is the first version of Lumi,
+so this shouldn't appear on the main system update page unless you're reading this on GitHub.
+So why not go and check the first version yourself?

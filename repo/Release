@@ -1,0 +1,13 @@
+Origin: lumi.os
+Label: Lumi OS Repository
+Suite: trixie
+Codename: trixie
+Architectures: amd64
+Components: main
+Description: Official Repository for GNU/Linux lumi.os
+MD5Sum:
+ d41d8cd98f00b204e9800998ecf8427e Packages
+ 9b5bd94fc9be4cd4ff46a5ed663a62e4 Packages.gz
+SHA256:
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Packages
+ c85b8ef3824888b8d917aa3228ac16af67ed9c126aaf4a7337ef7f28369b696d Packages.gz
