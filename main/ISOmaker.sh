@@ -16,7 +16,7 @@ echo "----------------------------------------------------"
 
 # 1. التأكد من وجود الأدوات اللازمة
 echo "Checking ISO build tools..."
-sudo apt-get update && sudo apt-get install -y \
+apt-get update && apt-get install -y \
     xorriso \
     squashfs-tools \
     grub-pc-bin \
@@ -28,26 +28,40 @@ echo "Preparing ISO root structure..."
 rm -rf "$ISO_ROOT"
 mkdir -p "$ISO_ROOT"/{boot/grub,live}
 
-# 3. ضغط نظام الملفات الجذري (SquashFS) ووضعه في مجلد /live
-echo "Compressing RootFS into /live/filesystem.squashfs..."
-# ملاحظة: live-boot يبحث عن filesystem.squashfs داخل مجلد /live حصراً
-sudo mksquashfs "$ROOTFS_DIR" "$ISO_ROOT/live/filesystem.squashfs" -comp xz -Xbcj x86 -Xdict-size 100% -e boot
-
-# 4. استخراج النواة والـ Initramfs القياسي المستقر وصريح التسمية
+rm -f "$OUTPUT_DIR/linux-lumi-0.1.iso"
+mkdir -p "$OUTPUT_DIR"
+# 3. استخراج النواة والـ Initramfs القياسي المستقر وصريح التسمية
 echo "Copying Kernel and live-boot Initramfs from RootFS..."
-KERNEL_FILE="$ROOTFS_DIR/boot/vmlinuz-6.12.86+deb13-amd64"
-INITRD_FILE="$ROOTFS_DIR/boot/initrd.img-6.12.86+deb13-amd64"
+KERNEL_FILE=$(ls -1t "$ROOTFS_DIR/boot"/vmlinuz* "$ROOTFS_DIR"/vmlinuz* 2>/dev/null | head -n 1)
+INITRD_FILE=$(ls -1t "$ROOTFS_DIR/boot"/initrd.img* "$ROOTFS_DIR"/initrd.img* 2>/dev/null | head -n 1)
 
-if [ ! -f "$KERNEL_FILE" ] || [ ! -f "$INITRD_FILE" ]; then
+if [ -z "$KERNEL_FILE" ] || [ -z "$INITRD_FILE" ]; then
     echo "Error: Debian Kernel or Initrd not found in boot folder!"
     exit 1
 else
     echo "Using Verified Kernel: $KERNEL_FILE"
     echo "Using Verified Initrd: $INITRD_FILE"
-    cp "$KERNEL_FILE" "$ISO_ROOT/live/vmlinuz"
-    cp "$INITRD_FILE" "$ISO_ROOT/live/initrd.img"
+    cp -L "$KERNEL_FILE" "$ISO_ROOT/live/vmlinuz"
+    cp -L "$INITRD_FILE" "$ISO_ROOT/live/initrd.img"
 fi
-# 5. إنشاء ملف تكوين GRUB 2 (grub.cfg) مع معاملات تشغيل واضحة
+#4 تنظيف وتفريغ المجلدات الديناميكية داخل RootFS لضمان عدم وجود ملفات ميتة
+echo "Cleaning virtual directories inside RootFS..."
+umount -R "$ROOTFS_DIR/proc" 2>/dev/null || true
+umount -R "$ROOTFS_DIR/sys" 2>/dev/null || true
+umount -R "$ROOTFS_DIR/dev" 2>/dev/null || true
+
+rm -rf "$ROOTFS_DIR"/proc/*
+rm -rf "$ROOTFS_DIR"/sys/*
+rm -rf "$ROOTFS_DIR"/dev/*
+rm -rf "$ROOTFS_DIR"/run/*
+rm -rf "$ROOTFS_DIR"/tmp/*
+
+# 5. ضغط نظام الملفات الجذري (SquashFS) ووضعه في مجلد /live
+echo "Compressing RootFS into /live/filesystem.squashfs..."
+# ملاحظة: live-boot يبحث عن filesystem.squashfs داخل مجلد /live حصراً
+mksquashfs "$ROOTFS_DIR" "$ISO_ROOT/live/filesystem.squashfs" -comp xz -Xbcj x86 -Xdict-size 100%
+
+# 6. إنشاء ملف تكوين GRUB 2 (grub.cfg) مع معاملات تشغيل واضحة
 echo "Creating GRUB configuration with boot=live..."
 cat << 'EOF' > "$ISO_ROOT/boot/grub/grub.cfg"
 set default=0
@@ -62,21 +76,21 @@ fi
 
 menuentry "Start LumiOS GNU/Linux 0.1 (First Boot Setup)" {
     echo "Loading LumiOS Setup Wizard..."
-    linux /live/vmlinuz boot=live components live-config.components=none oem-config/enable=true quiet splash
+    linux /live/vmlinuz boot=live components live-config.components=none nomodeset loglevel=7
     initrd /live/initrd.img
 }
 
 menuentry "Start LumiOS GNU/Linux (Safe Mode)" {
     echo "Loading LumiOS in Safe Mode..."
-    linux /live/vmlinuz boot=live components live-config.components=none oem-config/enable=true nomodeset
+    linux /live/vmlinuz boot=live components live-config.components=none quiet splash acpi_osi=! "acpi_osi=Windows 2015"
     initrd /live/initrd.img
 }
 EOF
-# 6. صناعة الـ ISO الهجين النهائي
+# 7. صناعة الـ ISO الهجين النهائي
 echo "Generating final Hybrid ISO image..."
 grub-mkrescue -o "$OUTPUT_DIR/linux-lumi-0.1.iso" "$ISO_ROOT"
 
-# 7. التحقق من النتيجة النهائية
+# 8. التحقق من النتيجة النهائية
 if [ -f "$OUTPUT_DIR/linux-lumi-0.1.iso" ]; then
     echo "----------------------------------------------------"
     echo "  SUCCESS! linux-lumi.os ISO (Live-Boot version) is ready."
