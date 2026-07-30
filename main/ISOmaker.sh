@@ -76,13 +76,18 @@ fi
 
 menuentry "Start LumiOS GNU/Linux 0.1 (First Boot Setup)" {
     echo "Loading LumiOS Setup Wizard..."
-    linux /live/vmlinuz boot=live components live-config.components=none nomodeset loglevel=7
+    linux /live/vmlinuz boot=live components live-config.components=none quiet splash video=1024x768
     initrd /live/initrd.img
 }
 
-menuentry "Start LumiOS GNU/Linux (Safe Mode)" {
+menuentry "Start LumiOS GNU/Linux 0.1 (Safe Mode)" {
     echo "Loading LumiOS in Safe Mode..."
-    linux /live/vmlinuz boot=live components live-config.components=none quiet splash acpi_osi=! "acpi_osi=Windows 2015"
+    linux /live/vmlinuz boot=live components live-config.components=none systemd.unit=multi-user.target
+    initrd /live/initrd.img
+}
+menuentry "Start LumiOS GNU/Linux 0.1 Compatibility Mode for some Laptops (Use only if the previous two options fail. laptops only)" {
+    echo "Loading LumiOS with ACPI Override..."
+    linux /live/vmlinuz boot=live components live-config.components=none quiet splash video=1024x768 acpi_osi=! "acpi_osi=Windows 2015"
     initrd /live/initrd.img
 }
 EOF
