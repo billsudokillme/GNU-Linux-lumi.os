@@ -16,8 +16,7 @@ jobs:
         uses: nsaunders/traffic-lite@v1
         with:
           token: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.event.repository.name }}
+          repo: ${{ github.repository }}
 
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
