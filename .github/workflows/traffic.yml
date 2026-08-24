@@ -16,6 +16,8 @@ jobs:
         uses: nsaunders/traffic-lite@v1
         with:
           token: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
 
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v9
@@ -23,4 +25,4 @@ jobs:
           author_name: Traffic Bot
           author_email: actions@github.com
           message: 'Update repository traffic data'
-          add: '.github/traffic.json'
+          add: 'traffic.json'
