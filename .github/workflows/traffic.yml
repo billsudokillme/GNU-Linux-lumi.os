@@ -2,7 +2,6 @@ name: Repository Traffic Tracker
 
 on:
   schedule:
-    
     - cron: '0 0 * * *'
   workflow_dispatch:
 
@@ -11,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Track Repository Traffic
-        uses: sangonikola/repository-traffic-action@v0.1.6
+        uses: techknowlogick/traffic-action@v1.0.0
         env:
-          TRAFFIC_ACTION_TOKEN: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
