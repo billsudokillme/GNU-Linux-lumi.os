@@ -26,3 +26,4 @@ jobs:
           author_email: actions@github.com
           message: 'Update repository traffic data (full metrics)'
           add: '.github/traffic.json'
+          new_branch: 'traffic-data'
