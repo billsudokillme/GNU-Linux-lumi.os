@@ -9,7 +9,18 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Track Repository Traffic
-        uses: techknowlogick/traffic-action@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Fetch Traffic Stats
+        uses: nsaunders/traffic-lite@v1
+        with:
+          token: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Traffic Bot
+          author_email: actions@github.com
+          message: 'Update repository traffic data'
+          add: '.github/traffic.json'
