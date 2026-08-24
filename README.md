@@ -2,5 +2,5 @@ Lumi, or "Li-mi" as I like to call it, is a Debian-based Linux system. Although 
 
 In any case, you can learn almost everything about the project at:
 https://billsudokillme.github.io/GNU-Linux-lumi.os/doc/
-
+(GNU Coreutils is the default.)
 Also, as of the time of writing, the project was founded, implemented, published, and documented by Youssef Ghouari.
